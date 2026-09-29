@@ -1,5 +1,7 @@
 # Backtester MT5 — autopsia de una estrategia retail
 
+*[English version](README.en.md)*
+
 Mide estrategias comunes (cruce de medias, RSI) con datos reales del terminal
 MetaTrader 5 y **muestra por qué su backtest miente**.
 
