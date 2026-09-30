@@ -3,3 +3,7 @@ __pycache__/
 .venv/
 venv/
 *.egg-info/
+ict/datos/
+ict/resultados/
+ict/vivo/
+ict/Prueba-en-vivo-Silver-Bullet.pdf

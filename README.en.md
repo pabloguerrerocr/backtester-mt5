@@ -96,3 +96,10 @@ That is the finding.
 On XAUUSD D1 (2020-2026) the moving-average crossover does gain +83%, but buying
 and holding gains +142% with a better Sharpe (0.93 versus 0.80) — the strategy
 charges you for destroying return.
+
+## Separate study: ICT, CRT + TBS and iFVG
+
+[`ict/`](ict/) tests five "smart money" models (Silver Bullet, 2022 model, iFVG,
+classic CRT and CRT + TBS) with their authors' own rules, on five markets and
+1,120 variants. No author configuration shows a statistical edge after costs;
+the only lead survives out of sample and is being tested live with frozen rules.

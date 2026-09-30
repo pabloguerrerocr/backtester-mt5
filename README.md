@@ -97,3 +97,11 @@ dinero. Ese es el hallazgo.
 En XAUUSD D1 (2020-2026) el cruce de medias sí gana +83 %, pero comprar y
 mantener gana +142 % con mejor Sharpe (0.93 contra 0.80) — la estrategia cobra
 por destruir retorno.
+
+## Estudio aparte: ICT, CRT + TBS e iFVG
+
+En [`ict/`](ict/) se prueban cinco modelos de "smart money" (Silver Bullet, modelo
+2022, iFVG, CRT clásico y CRT + TBS) con las reglas de sus autores, en cinco
+mercados y 1 120 variantes. Ninguna configuración de autor muestra ventaja
+estadística después de costos; la única pista sobrevive fuera de muestra y se
+está probando en vivo con reglas congeladas.
