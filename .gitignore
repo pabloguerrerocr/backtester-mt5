@@ -11,3 +11,11 @@ ict/Prueba-en-vivo-Silver-Bullet.pdf
 # asesor: datos personales
 asesor/config.json
 asesor/registro/
+
+# laboratorio: datos y salidas regenerables
+laboratorio/cache/
+laboratorio/resultados/
+laboratorio/ultima_corrida.txt
+laboratorio/Laboratorio-de-estrategias.pdf
+setups/icc_log.txt
+setups/icc_salida.txt
