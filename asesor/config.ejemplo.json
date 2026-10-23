@@ -1,0 +1,28 @@
+{
+  "balance": 164.59,
+  "moneda": "USD",
+  "riesgo_por_operacion_pct": 0.01,
+  "freno": {
+    "stop_diario_pct": 0.03,
+    "max_perdidas_seguidas": 3,
+    "max_ops_dia": 10
+  },
+  "binarias": {
+    "pago_por_defecto": 0.85
+  },
+  "costo": {
+    "comision_bp": 0.0,
+    "piso_bp": 0.85
+  },
+  "velas_historial": 3000,
+  "vigilar": [
+    {"simbolo": "EURUSD", "tf": "H1", "estrategias": ["ma:20:50", "rsi:14:30:70"]},
+    {"simbolo": "XAUUSD", "tf": "H4", "estrategias": ["ma:20:50"]}
+  ],
+  "noticias": {
+    "minutos_antes": 30,
+    "minutos_despues": 30
+  },
+  "diario": "asesor/registro/diario.csv",
+  "zona_horaria": "America/Costa_Rica"
+}

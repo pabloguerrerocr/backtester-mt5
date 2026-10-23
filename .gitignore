@@ -7,3 +7,7 @@ ict/datos/
 ict/resultados/
 ict/vivo/
 ict/Prueba-en-vivo-Silver-Bullet.pdf
+
+# asesor: datos personales
+asesor/config.json
+asesor/registro/

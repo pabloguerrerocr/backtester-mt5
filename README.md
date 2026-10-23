@@ -57,6 +57,7 @@ un bróker retail cobra cerca de 1 pip (~0.85 bp).
 | `metricas.py` | retorno, CAGR, volatilidad, Sharpe, máximo drawdown |
 | `main.py` | CLI y sección de autopsia |
 | `pruebas.py` | 32 pruebas: invariantes, casos límite e integración contra el terminal |
+| `asesor/` | capa en vivo: señales con evidencia, riesgo, diario, noticias e IA ([README](asesor/README.md)) |
 
 ## Pruebas
 
