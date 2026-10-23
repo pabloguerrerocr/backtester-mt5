@@ -8,7 +8,27 @@
     "max_ops_dia": 10
   },
   "binarias": {
-    "pago_por_defecto": 0.85
+    "pago_por_defecto": 0.85,
+    "velas_m1_historial": 20000,
+    "vigilar": [
+      {
+        "simbolo": "EURUSD",
+        "reglas": [
+          "rsi:14:30:70",
+          "ma:5:20",
+          "mom:3"
+        ],
+        "vence_seg": 60
+      },
+      {
+        "simbolo": "GBPUSD",
+        "reglas": [
+          "rsi:14:30:70"
+        ],
+        "vence_seg": 300
+      }
+    ],
+    "papel": "asesor/registro/papel_binarias.csv"
   },
   "costo": {
     "comision_bp": 0.0,
@@ -16,8 +36,21 @@
   },
   "velas_historial": 3000,
   "vigilar": [
-    {"simbolo": "EURUSD", "tf": "H1", "estrategias": ["ma:20:50", "rsi:14:30:70"]},
-    {"simbolo": "XAUUSD", "tf": "H4", "estrategias": ["ma:20:50"]}
+    {
+      "simbolo": "EURUSD",
+      "tf": "H1",
+      "estrategias": [
+        "ma:20:50",
+        "rsi:14:30:70"
+      ]
+    },
+    {
+      "simbolo": "XAUUSD",
+      "tf": "H4",
+      "estrategias": [
+        "ma:20:50"
+      ]
+    }
   ],
   "noticias": {
     "minutos_antes": 30,

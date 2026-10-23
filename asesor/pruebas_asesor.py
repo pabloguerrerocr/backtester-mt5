@@ -284,10 +284,12 @@ class PruebasCLI(unittest.TestCase):
     def setUp(self):
         self.dir = tempfile.TemporaryDirectory()
         self.cfg = os.path.join(self.dir.name, "config.json")
-        base = json.load(open(os.path.join(os.path.dirname(__file__), "config.ejemplo.json"),
-                              encoding="utf-8"))
+        with open(os.path.join(os.path.dirname(__file__), "config.ejemplo.json"),
+                  encoding="utf-8") as f:
+            base = json.load(f)
         base["diario"] = os.path.join(self.dir.name, "diario.csv")
-        json.dump(base, open(self.cfg, "w", encoding="utf-8"))
+        with open(self.cfg, "w", encoding="utf-8") as f:
+            json.dump(base, f)
 
     def tearDown(self):
         self.dir.cleanup()

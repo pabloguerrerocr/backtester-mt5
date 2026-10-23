@@ -49,6 +49,38 @@ python -m asesor binaria                     # usa el peor caso del IC de tu dia
 
 Estrategias en el config: `ma:20:50` (cruce de medias), `rsi:14:30:70`, `bh`.
 
+## Señales de binarias (para operar a mano en IQ Option)
+
+Lee el precio real de MT5 al cierre de cada vela de 1 minuto y te tira
+`SUBE` / `BAJA` con vencimiento. Cada señal **se anota sola en papel** con el
+precio de entrada y, al vencer, con el precio real: así medís la regla contra el
+54.05 % sin arriesgar plata.
+
+```bash
+python -m asesor binarias-prueba     # primero: qué dice el histórico de cada regla
+python -m asesor binarias            # en vivo (deja MT5 abierto)
+python -m asesor stats --papel       # acierto en papel por regla, con IC
+```
+
+Ejemplo de alerta:
+
+```
+BAJA EURUSD | vence 1 min | entrada ~1.08149 | 08:04:00 | regla mom:3
+  Historico: SIN VENTAJA PROBADA | 72 senales a 1 min: acierto 47.2% [IC 36.1%, 58.6%] ...
+  En papel: 0 senales
+  -> Sin ventaja demostrada: miralo en papel o demo, no con plata real.
+RESULTADO BAJA EURUSD mom:3 60s: GANA (entrada 1.08149, salida 1.08146) | en papel: 1/1 ...
+```
+
+Reglas (en `binarias.vigilar` del config): `rsi:14:30:70` (rebote desde
+sobrecompra/sobreventa, la lógica de casi todas las flechas COMPRA/VENDE),
+`ma:5:20` (cruce de medias), `mom:3` (tres cierres seguidos en la misma dirección).
+Vencimientos de 60, 120, 300 s... se prueban en el histórico de velas M1; 30 s
+solo se puede medir en papel.
+
+Fin de semana: el par real no cotiza, el bot lo detecta y no da señales (en
+IQ Option a esa hora solo hay OTC).
+
 ## IQ Option: qué se puede y qué no
 
 - **No hay API oficial.** Las librerías que existen son ingeniería inversa y violan
@@ -78,14 +110,15 @@ e incluye el equilibrio. El asesor responde "sin evidencia de ventaja".
 | `riesgo.py` | equilibrio, Kelly, lotes, probabilidad de rachas, frenos |
 | `diario.py` | registro append-only, intervalo de Wilson, veredicto |
 | `senales.py` | señal de la última vela cerrada + evidencia del backtest |
+| `binarias.py` | reglas SUBE/BAJA, backtest por vencimiento, registro en papel |
 | `noticias.py` | calendario de Forex Factory (JSON público) y ventanas de alto impacto |
 | `ia.py` | explicación con la API de Claude; no predice ni decide |
 | `alertas.py` | consola y Telegram |
 | `__main__.py` | comandos |
-| `pruebas_asesor.py` | 35 pruebas, sin terminal ni internet |
+| `pruebas_asesor.py`, `pruebas_binarias.py` | 50 pruebas, sin terminal ni internet (el precio en vivo se simula) |
 
 ```bash
-python -m unittest asesor.pruebas_asesor -v
+python -m unittest asesor.pruebas_asesor asesor.pruebas_binarias -v
 ```
 
 No es asesoría financiera: es aritmética sobre tus propios datos.

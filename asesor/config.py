@@ -17,4 +17,11 @@ def cargar(ruta: str | None = None) -> dict:
     cfg["_origen"] = ruta
     if not os.path.isabs(cfg["diario"]):
         cfg["diario"] = os.path.join(RAIZ, cfg["diario"])
+    b = cfg.setdefault("binarias", {})
+    b.setdefault("pago_por_defecto", 0.85)
+    b.setdefault("velas_m1_historial", 20000)
+    b.setdefault("vigilar", [])
+    b.setdefault("papel", "asesor/registro/papel_binarias.csv")
+    if not os.path.isabs(b["papel"]):
+        b["papel"] = os.path.join(RAIZ, b["papel"])
     return cfg
