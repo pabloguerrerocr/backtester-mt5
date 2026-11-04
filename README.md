@@ -2,18 +2,50 @@
 
 *[English version](README.en.md)*
 
-Mide estrategias comunes (cruce de medias, RSI) con datos reales del terminal
-MetaTrader 5 y **muestra por qué su backtest miente**.
+**Pregunta.** ¿Cuánto del retorno de una estrategia de trading popular sobrevive
+cuando se descuentan costos reales, sobreajuste e información futura?
 
-No es un bot que gana dinero. El resultado interesante es cuánto del retorno
-sobrevive después de descontar costos, sobreajuste y look-ahead.
+**Respuesta corta: nada.** Con datos reales del terminal MetaTrader 5, ninguna de las
+estrategias comunes (cruce de medias, RSI) le gana a comprar y mantener, y en el
+estudio de modelos de «smart money» **0 de 25** configuraciones de autor tienen
+ventaja estadística después de costos. No es un bot que gana dinero: es una
+auditoría de por qué los backtests mienten.
 
-## Requisitos
+## Tres hallazgos
 
-- MetaTrader 5 instalado y con sesión iniciada (basta una cuenta demo)
-- `pip install MetaTrader5 pandas numpy`
+**1. Ninguna estrategia le gana a no hacer nada.** En EURUSD H1 (5.000 velas), el
+cruce de medias pierde 3,47 %, el RSI 1,33 % y comprar y mantener 0,72 %; 9 de las 11
+combinaciones de medias pierden dinero. En XAUUSD D1 el cruce gana +83 %, pero comprar
+y mantener gana +142 % con mejor Sharpe (0,93 contra 0,80).
 
-## Uso
+**2. Los datos de la demo engañan.** El campo `spread` llega en cero en el 88 % de las
+velas de EURUSD H1: tomarlo al pie de la letra es suponer que operar es gratis. Por
+eso hay un piso de costo obligatorio. Y la demo congeló el precio de USTEC y US500
+durante tres meses de 2024-2025, detectado y excluido con una regla objetiva.
+
+**3. Lo que gana dentro de muestra no predice lo que gana fuera.** En el estudio ICT,
+entre 1.120 variantes, la correlación entre los resultados antes y después de julio
+de 2024 es de **+0,09**. Solo 7 variantes tienen t > 2, contra unas 26 esperables por
+azar.
+
+Las cifras salen de corridas contra el terminal; el detalle está en
+[«Resultado observado»](#resultado-observado) y en [`ict/`](ict/).
+
+## Cómo correrlo
+
+Los backtests necesitan MetaTrader 5 instalado y con sesión iniciada (basta una
+cuenta demo), y el terminal solo existe para Windows. Las pruebas unitarias corren en
+cualquier sistema:
+
+```bash
+git clone https://github.com/pabloguerrerocr/backtester-mt5.git
+cd backtester-mt5
+pip install -r requirements.txt      # en Mac y Linux omite MetaTrader5 solo
+python -m unittest pruebas -v        # 32 pruebas; las de terminal se saltan sin MT5
+cd ict && python -m unittest pruebas_ict -v   # 12 pruebas más
+```
+
+Con el terminal abierto:
 
 ```bash
 python main.py                                        # EURUSD H1, 5000 velas
@@ -64,7 +96,9 @@ un bróker retail cobra cerca de 1 pip (~0.85 bp).
 python -m unittest pruebas -v
 ```
 
-Las de integración se saltan solas si el terminal no está abierto. Las más
+Las de integración se saltan solas si el terminal no está abierto. Sin MetaTrader 5
+(por ejemplo, en Mac o Linux) pasan las 23 unitarias y se saltan las 9 de
+integración; en `ict/` pasan 6 y se saltan las 6 que necesitan las velas. Las más
 relevantes:
 
 - **`test_motor_vectorizado_igual_a_simulacion_barra_a_barra`** — reproduce
