@@ -2,18 +2,47 @@
 
 *[Versión en español](README.md)*
 
-Measures common strategies (moving-average crossover, RSI) with real data from the
-MetaTrader 5 terminal and **shows why their backtest lies**.
+**Question.** How much of a popular trading strategy's return survives once real
+costs, overfitting and look-ahead are accounted for?
 
-It is not a bot that makes money. The interesting result is how much of the return
-survives after accounting for costs, overfitting and look-ahead.
+**Short answer: none.** On real data from the MetaTrader 5 terminal, none of the common
+strategies (moving-average crossover, RSI) beats buy and hold, and in the study of
+"smart money" models **0 of 25** author configurations have a statistical edge after
+costs. It is not a bot that makes money: it is an audit of why backtests lie.
 
-## Requirements
+## Three findings
 
-- MetaTrader 5 installed and logged in (a demo account is enough)
-- `pip install MetaTrader5 pandas numpy`
+**1. No strategy beats doing nothing.** On EURUSD H1 (5,000 candles) the
+moving-average crossover loses 3.47%, RSI 1.33% and buy and hold 0.72%; 9 of the 11
+moving-average combinations lose money. On XAUUSD D1 the crossover makes +83%, but buy
+and hold makes +142% with a better Sharpe ratio (0.93 versus 0.80).
 
-## Usage
+**2. The demo data is misleading.** The `spread` field arrives as zero in 88% of
+EURUSD H1 candles: taking it literally assumes trading is free. That is why there is a
+mandatory cost floor. And the demo froze the price of USTEC and US500 for three months
+in 2024-2025, which was detected and excluded with an objective rule.
+
+**3. What wins in sample does not predict what wins out of sample.** In the ICT study,
+across 1,120 variants, the correlation between results before and after July 2024 is
+**+0.09**. Only 7 variants have t > 2, against about 26 expected by chance.
+
+The figures come from runs against the terminal; details are in
+["Observed result"](#observed-result) and in [`ict/`](ict/).
+
+## Run it
+
+The backtests need MetaTrader 5 installed and logged in (a demo account is enough),
+and the terminal only exists for Windows. The unit tests run on any system:
+
+```bash
+git clone https://github.com/pabloguerrerocr/backtester-mt5.git
+cd backtester-mt5
+pip install -r requirements.txt      # on Mac and Linux it skips MetaTrader5 by itself
+python -m unittest pruebas -v        # 32 tests; the terminal ones skip without MT5
+cd ict && python -m unittest pruebas_ict -v   # 12 more tests
+```
+
+With the terminal open:
 
 ```bash
 python main.py                                        # EURUSD H1, 5000 candles
@@ -64,7 +93,10 @@ retail broker charges about 1 pip (~0.85 bp).
 python -m unittest pruebas -v
 ```
 
-Integration tests skip themselves if the terminal is not open. The most relevant:
+Integration tests skip themselves if the terminal is not open. Without MetaTrader 5
+(on Mac or Linux, for example) the 23 unit tests pass and the 9 integration tests are
+skipped; in `ict/`, 6 pass and the 6 that need the candles are skipped. The most
+relevant:
 
 - **`test_motor_vectorizado_igual_a_simulacion_barra_a_barra`** — replays 1500
   real EURUSD bars with an explicit loop; both equity curves match with

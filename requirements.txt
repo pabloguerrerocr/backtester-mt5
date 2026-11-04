@@ -1,0 +1,6 @@
+# Los backtests necesitan el terminal MetaTrader 5, que solo existe para Windows.
+# En Mac y Linux se instala el resto, y las pruebas unitarias corren igual.
+MetaTrader5>=5.0; sys_platform == "win32"
+numpy>=1.26
+pandas>=2.0
+matplotlib>=3.7
